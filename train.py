@@ -16,8 +16,8 @@ import torch.backends.cudnn as cudnn
 from torchvision import transforms, datasets
 
 import torch.nn.init as init
-from models import resnet_bwn, vgg_small, resnet, bireal, bireal_resnet, bireal_act, bireal_act2
-from models import bireal32, bireal_32, floatbireal, resnet_naver
+from models import bireal
+
 
 from torch.autograd import Variable
 
@@ -447,39 +447,10 @@ if __name__ == '__main__':
     # choose model nin.vgg,resnet
     if args.arch == 'resnet':
         model = resnet.resnet18()
-    elif args.arch == 'resnet34':
-        model = resnet.resnet34()
-    elif args.arch == 'resnet50':
-        model =resnet.resnet50()
-    elif args.arch == 'resnet101':
-        model = resnet.resnet101()
-    elif args.arch == 'resnet152':
-        model =resnet.resnet152()
-    elif args.arch == 'resnet32':
-        model = resnet_bwn.resnet32()
-    elif args.arch == 'vgg_small':
-        model = vgg_small.Net()
-    elif args.arch == 'nin':
-        model = nin.Net()
-    elif args.arch == 'vgg1x3':
-        model = vgg_bwn.Net()
     elif args.arch == 'bireal':
         model = bireal.birealnet18()
-        model_t = bireal32.birealnet18()
-    elif args.arch == 'birealresnet':
-        model = bireal_resnet.birealnet18()
-    elif args.arch == 'bireal_act':
-        model = bireal_act2.birealnet18()
-        model_t = bireal32.birealnet18()
-    elif args.arch == 'bireal_act2':
-        model = bireal_act2.birealnet18()
         model_t = resnet.resnet18()
-    elif args.arch == 'bireal18':
-        model = bireal_act2.birealnet18()
-    elif args.arch == 'bireal_32':
-        model = bireal_32.birealnet18()
-    elif args.arch == 'bireal32':
-        model = bireal32.birealnet18()
+    
     else:
         raise Exception(args.arch + ' is currently not supported')
 
