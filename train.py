@@ -8,14 +8,13 @@ import os
 import torch
 import argparse
 import time
-import util
 import torch.nn as nn
 import torch.optim as optim
 import torch.backends.cudnn as cudnn
 from torchvision import transforms, datasets
 
 import torch.nn.init as init
-from models import bireal
+from models import bireal, resnet
 
 
 from torch.autograd import Variable
@@ -359,7 +358,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--print_freq', type=int, default=100, help='print frequency')
     parser.add_argument('--cpu', action='store_true', help='set if only CPU is available')
-    parser.add_argument('--data', action='store', default='./data/',help='dataset path')
     parser.add_argument('--set', default='BWN', type=str)
     parser.add_argument('--arch', action='store', default='nin_xnor',help='the architecture for the network: nin')
     parser.add_argument('--lr', action='store', default='0.01',help='the intial learning rate')
@@ -387,27 +385,6 @@ if __name__ == '__main__':
     torch.manual_seed(1)
     torch.cuda.manual_seed(1)
 
-    # prepare the data
-    if not os.path.isfile(args.data + '/train_data'):
-        # check the data path
-        raise Exception \
-            ('Please assign the correct data path with --data <DATA_PATH>')
-
-    # transform_train = transforms.Compose([
-    #     transforms.RandomCrop(32, padding=4),
-    #     transforms.RandomHorizontalFlip(),
-    #     transforms.RandomRotation(15),
-    #     transforms.ToTensor(),
-    #     transforms.Normalize(mean=(0.4914, 0.4824, 0.4467),
-    #                          std=(0.2471, 0.2436, 0.2616))
-    # ])
-    #
-    # transform_test = transforms.Compose([
-    #     transforms.ToTensor(),
-    #     transforms.Normalize(mean=(0.4914, 0.4824, 0.4467),
-    #                          std=(0.2471, 0.2436, 0.2616))
-    # ])
-
     transform_train = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
@@ -420,12 +397,12 @@ if __name__ == '__main__':
         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
     ])
 
-    train_dataset = datasets.CIFAR100(root='../data/cifar100/',
+    train_dataset = datasets.CIFAR100(root='/mnt/XNOR-Net-PyTorch/data/cifar100/',
                                      download=True,
                                      transform=transform_train,
                                      train=True)
 
-    test_dataset = datasets.CIFAR100(root='../data/cifar100/',
+    test_dataset = datasets.CIFAR100(root='/mnt/XNOR-Net-PyTorch/data/cifar100/',
                                     train=False,
                                     transform=transform_test)
 
