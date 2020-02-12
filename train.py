@@ -8,7 +8,6 @@ import os
 import torch
 import argparse
 import time
-import data
 import util
 import torch.nn as nn
 import torch.optim as optim
